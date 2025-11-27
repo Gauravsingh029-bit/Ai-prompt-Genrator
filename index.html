@@ -1,0 +1,294 @@
+11.27 9:21 PM
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Prompt Generator</title>
+  <style>
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #4f46e5, #9333ea, #ec4899);
+      background-size: 300% 300%;
+      animation: gradientMove 10s ease infinite;
+      color: #fff;
+      font-family: "Poppins", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: background 0.5s ease-in-out;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 15px 0;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 20px;
+      font-weight: 600;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      width: 0%;
+      height: 3px;
+      background: #ff80bf;
+      left: 0;
+      bottom: -6px;
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    nav a:hover {
+      color: #ffe4f2;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+      text-align: center;
+      padding: 40px 50px;
+      width: 90%;
+      max-width: 500px;
+      margin-top: 60px;
+      display: none;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .container.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      outline: none;
+      margin-top: 15px;
+      font-size: 16px;
+      text-align: center;
+      color: #333;
+    }
+
+    button {
+      margin-top: 20px;
+      background: linear-gradient(90deg, #ff7eb3, #ff4081);
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 500;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(255, 64, 129, 0.4);
+    }
+
+    #output {
+      margin-top: 25px;
+      font-style: italic;
+      font-size: 1.1em;
+      word-wrap: break-word;
+      line-height: 1.5;
+      color: #fff;
+    }
+
+    #copyBtn {
+      display: none;
+      background: linear-gradient(90deg, #4ade80, #16a34a);
+      margin-top: 15px;
+    }
+
+    #copyBtn:hover {
+      box-shadow: 0 4px 15px rgba(22, 163, 74, 0.4);
+    }
+
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      opacity: 0.8;
+      color: #eee;
+    }
+
+    ol {
+      text-align: left;
+      margin-top: 10px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 600px) {
+      nav a {
+        margin: 0 10px;
+        font-size: 14px;
+      }
+
+      .container {
+        padding: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="#" onclick="showPage('home')">Home</a>
+      <a href="#" onclick="showPage('howto')">How to Use</a>
+      <a href="#" onclick="showPage('about')">About Us</a>
+      <a href="#" onclick="showPage('privacy')">Privacy Policy</a>
+    </nav>
+  </header>
+
+  <!-- HOME PAGE -->
+  <div id="home" class="container active">
+    <h1>✨ AI Prompt Generator</h1>
+    <p>Enter a simple idea, and get a creative prompt with background and foreground details!</p>
+    
+    <input type="text" id="userInput" placeholder="e.g. forest, beach, city" />
+    <button id="generateBtn">Generate Prompt</button>
+    
+    <div id="output"></div>
+    <button id="copyBtn">Copy Prompt</button>
+  </div>
+
+  <!-- HOW TO USE PAGE -->
+  <div id="howto" class="container">
+    <h1> How to Use</h1>
+    <ol>
+      <li>Enter any simple word or idea (like “mountain” or “sunset”).</li>
+      <li>Click <b>Generate Prompt</b> to create a creative background and foreground description.</li>
+      <li>Click <b>Copy Prompt</b> to copy and use it in your AI or creative writing tools.</li>
+      <li>Return anytime to generate unique ideas!</li>
+    </ol>
+  </div>
+
+  <!-- ABOUT US PAGE -->
+  <div id="about" class="container">
+    <h1> About Us</h1>
+    <p>
+      We built <b>AI Prompt Generator</b> to help artists, writers, and creators
+      turn simple ideas into imaginative scenes.  
+      It’s designed to inspire creativity for AI image generation, storytelling, and more.
+    </p>
+    <p>
+      Built with ❤️ using pure HTML, CSS, and JavaScript.
+    </p>
+  </div>
+
+  <!-- PRIVACY POLICY PAGE -->
+  <div id="privacy" class="container">
+    <h1> Privacy Policy</h1>
+    <p>
+      We respect your privacy — no personal data is collected or stored.  
+      All text you enter stays local to your device and is not transmitted anywhere.
+    </p>
+    <p>
+      If we ever add analytics or AI APIs in the future, this policy will be updated accordingly.
+    </p>
+  </div>
+
+  <footer>© 2025 AI Prompt Generator. All rights reserved.</footer>
+
+  <script>
+    // Navigation between pages
+    function showPage(pageId) {
+      document.querySelectorAll('.container').forEach(page => page.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Prompt generation
+    const input = document.getElementById("userInput");
+    const button = document.getElementById("generateBtn");
+    const output = document.getElementById("output");
+    const copyBtn = document.getElementById("copyBtn");
+
+    const backgrounds = [
+      "a glowing sunset over the horizon",
+      "a misty mountain valley",
+      "a futuristic city skyline at night",
+      "a calm beach with waves gently rolling in",
+      "a dense enchanted forest filled with light beams",
+      "a quiet snow-covered village under the stars"
+    ];
+
+    const foregrounds = [
+      "a lone traveler walking through the scene",
+      "birds flying across the sky",
+      "a person painting on a canvas",
+      "a child playing with a kite",
+      "a robot observing the view",
+      "animals peacefully grazing nearby"
+    ];
+
+    button.addEventListener("click", () => {
+      const userPrompt = input.value.trim();
+      if (!userPrompt) {
+        output.textContent = "⚠️ Please enter a simple prompt!";
+        copyBtn.style.display = "none";
+        return;
+      }
+      const randomBackground = backgrounds[Math.floor(Math.random() * backgrounds.length)];
+      const randomForeground = foregrounds[Math.floor(Math.random() * foregrounds.length)];
+      const creativePrompt = ` A creative scene of ${userPrompt} with ${randomBackground} and ${randomForeground}.`;
+      output.textContent = creativePrompt;
+      copyBtn.style.display = "inline-block";
+    });
+
+    // Copy to clipboard
+    copyBtn.addEventListener("click", () => {
+      const textToCopy = output.textContent;
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          copyBtn.textContent = "✅ Copied!";
+          setTimeout(() => (copyBtn.textContent = "Copy Prompt"), 2000);
+        })
+        .catch(() => {
+          alert("Failed to copy. Please try again.");
+        });
+    });
+  </script>
+</body>
+</html>
